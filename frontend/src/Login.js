@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Login = () => {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:5000/login', { username, password });
+      const res = await axios.post('http://localhost:5000/login', { identifier, password });
       localStorage.setItem('token', res.data.token); // Save JWT token in localStorage
       navigate('/dashboard'); // Redirect to dashboard after successful login
     } catch (err) {
@@ -36,26 +36,11 @@ const Login = () => {
       </nav>
 
       {error && <p className="error" style={{ color: 'red' }}>{error}</p>}
+      
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
+        <input type="text" placeholder="Email or Phone Number" value={identifier} onChange={e => setIdentifier(e.target.value)} required />
+        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+        <button type="submit" style={{ marginTop: '10px' }}>Login</button>
       </form>
 
       {/* Explanation Paragraph */}

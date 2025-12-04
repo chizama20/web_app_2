@@ -3,9 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Register = () => {
-  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [number, setNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [address, setAddress] = useState('');
+  const [cardName, setCardName] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [expMonth, setExpMonth] = useState('');
+  const [expYear, setExpYear] = useState('');
+  const [cvv, setCVV] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -15,9 +24,18 @@ const Register = () => {
 
     try {
       const res = await axios.post('http://localhost:5000/register', {
-        username,
+        firstName,
+        lastName,
         email,
+        number,
         password,
+        confirmPassword,
+        address,
+        cardName,
+        cardNumber,
+        expMonth,
+        expYear,
+        cvv
       });
       if (res.status === 201) {
         navigate('/login');
@@ -48,35 +66,22 @@ const Register = () => {
       </nav>
 
       {error && <p className="error" style={{ color: 'red' }}>{error}</p>}
+
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Register</button>
+        <input type="text" placeholder="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} required />
+        <input type="text" placeholder="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} required />
+        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
+        <input type="text" placeholder="Phone Number" value={number} onChange={e => setNumber(e.target.value)} required />
+        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+        <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
+        <input type="text" placeholder="Address" value={address} onChange={e => setAddress(e.target.value)} required />
+        <input type="text" placeholder="Cardholder Name" value={cardName} onChange={e => setCardName(e.target.value)} required />
+        <input type="text" placeholder="Card Number" value={cardNumber} onChange={e => setCardNumber(e.target.value)} required />
+        <input type="text" placeholder="Exp Month (MM)" value={expMonth} onChange={e => setExpMonth(e.target.value)} required />
+        <input type="text" placeholder="Exp Year (YYYY)" value={expYear} onChange={e => setExpYear(e.target.value)} required />
+        <input type="text" placeholder="CVV" value={cvv} onChange={e => setCVV(e.target.value)} required />
+
+        <button type="submit" style={{ marginTop: '10px' }}>Register</button>
       </form>
 
       {/* Database Setup Instructions */}
@@ -105,9 +110,23 @@ const Register = () => {
             <pre id="sql-code" style={{ backgroundColor: '#f0f0f0', padding: '10px', borderRadius: '4px', whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}>
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(100) NOT NULL,
+  clientid VARCHAR(100) NOT NULL UNIQUE,
+
+  firstName VARCHAR(100) NOT NULL,
+  lastName VARCHAR(100) NOT NULL,
+  
   email VARCHAR(100) NOT NULL UNIQUE,
+  number VARCHAR(100) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
+  
+  address VARCHAR(100) NOT NULL,
+  
+  cardName VARCHAR(100) NOT NULL,
+  cardNumber VARCHAR(25) NOT NULL,
+  expMonth VARCHAR(2) NOT NULL,
+  expYear VARCHAR(4) NOT NULL,
+  cvv VARCHAR(4) NOT NULL,
+  
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
             </pre>

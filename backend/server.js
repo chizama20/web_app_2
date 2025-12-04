@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
@@ -36,28 +37,67 @@ app.listen(5000, () => {
 
 // User registration route
 app.post('/register', async (req, res) => {
-  const { username, email, password } = req.body;  // Extract username, email, and password from request body
-  const hashedPassword = await bcrypt.hash(password, 10);  // Hash the password using bcrypt with 10 salt rounds
+  const { 
+    firstName,
+    lastName,
+    address,
+    email,
+    number,
+    password,
+    cardNumber,
+    cardName,
+    expMonth,
+    expYear,
+    cvv } = req.body;  // Extract username, email, and password from request body
+  
+  if (!firstName || !lastName || !address || !email || !number || !password || !cardNumber || !cardName || !expMonth || !expYear || !cvv) {
+    return res.status(400).json({ message: 'All fields are required' });  // Validate input fields
+  }
 
+  const clientid = uuidv4(); // Generate a unique client ID
+
+  const hashedPassword = await bcrypt.hash(password, 10);  // Hash the password for security
+  
+  const sql = 'INSERT INTO users (clientId, firstName, lastName, address, email, number, password, cardNumber, cardName, expMonth, expYear, cvv) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    
   // Insert the new user into the 'users' table
-  db.query(
-    'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
-    [username, email, hashedPassword],
+  db.query( sql, 
+    [
+    clientid,
+    firstName,
+    lastName,
+    address,
+    email,
+    number,
+    hashedPassword,
+    cardNumber,
+    cardName,
+    expMonth,
+    expYear,
+    cvv],
     (err, result) => {
       if (err) {
         return res.status(500).json({ message: 'User registration failed', error: err });  // Send error response if registration fails
       }
-      res.status(201).json({ message: 'User registered successfully' });  // Send success response
+      res.status(201).json({ message: 'User registered successfully', clientid: clientid });  // Send success response
     }
   );
 });
 
 // User login route
 app.post('/login', (req, res) => {
-  const { username, password } = req.body;  // Extract username and password from request body
+  const { identifier , password } = req.body;  // Extract username and password from request body
+
+  if (!identifier || !password) {
+    return res.status(400).json({ message: 'Username/Email and password are required' });  // Validate input fields
+  }
 
   // Query the database for the user with the provided username
-  db.query('SELECT * FROM users WHERE username = ?', [username], async (err, results) => {
+  const sql = "SELECT * FROM users WHERE email = ? OR number = ?";
+
+  db.query(sql, [identifier, identifier], async (err, results) => {
+    if(err) return res.status(500).json({ message: 'Database query error', error: err });
+
     if (err || results.length === 0) {
       return res.status(400).json({ message: 'User not found' });  // Send error response if user is not found
     }
@@ -98,15 +138,19 @@ app.get('/dashboard', authenticateToken, (req, res) => {
 
 
 app.get('/profile', authenticateToken, (req, res) => {
-  const userId = req.user.userId;  // Extract userId from the decoded JWT token
+  const userId = req.user.userId;  // Extract userId from JWT
 
-  // Query the database to get the user data based on the userId
-  db.query('SELECT username, email FROM users WHERE id = ?', [userId], (err, result) => {
+  db.query('SELECT firstName, lastName, email, number, address FROM users WHERE id = ?', [userId], (err, result) => {
     if (err || result.length === 0) {
-      return res.status(404).json({ message: 'User not found' });  // Send error if user not found
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    // Send user profile data as response
-    res.json({ username: result[0].username, email: result[0].email });
+    res.json({ 
+      firstName: result[0].firstName,
+      lastName: result[0].lastName,
+      email: result[0].email,
+      number: result[0].number,
+      address: result[0].address
+    });
   });
 });
