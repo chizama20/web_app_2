@@ -1,11 +1,11 @@
 // This is the content of the profile page
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getUsernameFromToken } from './utils'; // Helper function to get the username
+import { getFirstNameFromToken } from './utils'; // Helper function to get the username
 
 const Profile = () => {
   const navigate = useNavigate();
-  const username = getUsernameFromToken(); // Extract the username from the JWT token
+  const firstName = getFirstNameFromToken(); // Extract the first name from the JWT token
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the JWT token from localStorage
@@ -14,7 +14,7 @@ const Profile = () => {
 
   return (
     <div className="container" style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-      <h2 style={{ textAlign: 'center', fontSize: '2rem', color: '#007bff', marginBottom: '20px' }}>Welcome to Your profile page, {username}!</h2>
+      <h2 style={{ textAlign: 'center', fontSize: '2rem', color: '#007bff', marginBottom: '20px' }}>Welcome to Your profile page, {firstName}!</h2>
       
       {/* Navigation Menu */}
       <nav style={{ textAlign: 'center', marginBottom: '20px' }}>
