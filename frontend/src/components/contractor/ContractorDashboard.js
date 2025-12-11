@@ -155,6 +155,18 @@ const ContractorDashboard = () => {
           >
             Manage Billing
           </Link>
+          <Link
+            to="/contractor/analytics"
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#6f42c1',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '4px'
+            }}
+          >
+            Analytics Dashboard
+          </Link>
         </div>
       </div>
     </div>

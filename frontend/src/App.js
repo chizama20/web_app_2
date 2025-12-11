@@ -20,6 +20,7 @@ import ContractorDashboard from './components/contractor/ContractorDashboard';
 import RequestManagement from './components/contractor/RequestManagement';
 import OrderManagement from './components/contractor/OrderManagement';
 import BillingManagement from './components/contractor/BillingManagement';
+import AnalyticsDashboard from './components/contractor/AnalyticsDashboard';
 
 function App() {
   return (
@@ -145,6 +146,17 @@ function App() {
             <PrivateRoute>
               <RoleRoute allowedRoles={['contractor']}>
                 <BillingManagement />
+              </RoleRoute>
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/contractor/analytics"
+          element={
+            <PrivateRoute>
+              <RoleRoute allowedRoles={['contractor']}>
+                <AnalyticsDashboard />
               </RoleRoute>
             </PrivateRoute>
           }

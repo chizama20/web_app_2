@@ -142,9 +142,11 @@ const belongsToClient = async (requestId, clientId) => {
 const addPhotos = async (requestId, photoPaths) => {
   if (photoPaths.length === 0) return;
 
-  const values = photoPaths.map(photoPath => [requestId, photoPath]);
-  const sql = 'INSERT INTO service_request_photos (request_id, photo_path) VALUES ?';
-  await db.query(sql, [values]);
+  // Insert photos one by one to avoid SQL syntax issues
+  for (const photoPath of photoPaths) {
+    const sql = 'INSERT INTO service_request_photos (request_id, photo_path) VALUES (?, ?)';
+    await db.query(sql, [requestId, photoPath]);
+  }
 };
 
 /**
