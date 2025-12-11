@@ -1,7 +1,7 @@
 // This is the content of the profile page
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getFirstNameFromToken } from './utils'; // Helper function to get the username
+import { getFirstNameFromToken } from '../utils'; // Helper function to get the username
 
 const Profile = () => {
   const navigate = useNavigate();

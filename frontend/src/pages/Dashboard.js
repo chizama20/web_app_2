@@ -1,7 +1,7 @@
 // This is the code for Dashboard page (Client Dashboard)
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getRoleFromToken } from './utils';
+import { getRoleFromToken } from '../utils';
 import { Navigate } from 'react-router-dom';
 
 const Dashboard = () => {

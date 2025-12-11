@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { getRoleFromToken } from './utils';
+import { getRoleFromToken } from '../utils';
 
 const RoleRoute = ({ children, allowedRoles }) => {
   const userRole = getRoleFromToken();
