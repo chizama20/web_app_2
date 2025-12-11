@@ -1,28 +1,52 @@
 import { jwtDecode } from 'jwt-decode'; // Correct import syntax for jwt-decode
-/*
-export const getUsernameFromToken = () => {
-  const token = localStorage.getItem('token'); // Get the token from localStorage
+
+export const getToken = () => {
+  return localStorage.getItem('token');
+};
+
+export const getUserIdFromToken = () => {
+  const token = getToken();
   if (!token) return null;
 
   try {
-    const decoded = jwtDecode(token); // Decode the token to get user information
-    return decoded.username; // Assuming the token has a "username" field
+    const decoded = jwtDecode(token);
+    return decoded.userId;
   } catch (error) {
     console.error('Failed to decode token:', error);
     return null;
   }
 };
-*/
 
-export const getFirstNameFromToken = () => {
-  const token = localStorage.getItem('token'); // Get the token from localStorage
+export const getRoleFromToken = () => {
+  const token = getToken();
   if (!token) return null;
 
   try {
-    const decoded = jwtDecode(token); // Decode the token to get user information
-    return decoded.firstName; // Assuming the token has a "first name" field
+    const decoded = jwtDecode(token);
+    return decoded.role || 'client';
   } catch (error) {
     console.error('Failed to decode token:', error);
     return null;
   }
+};
+
+export const getFirstNameFromToken = () => {
+  const token = getToken();
+  if (!token) return null;
+
+  try {
+    const decoded = jwtDecode(token);
+    return decoded.firstName;
+  } catch (error) {
+    console.error('Failed to decode token:', error);
+    return null;
+  }
+};
+
+export const isContractor = () => {
+  return getRoleFromToken() === 'contractor';
+};
+
+export const isClient = () => {
+  return getRoleFromToken() === 'client';
 };

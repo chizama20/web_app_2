@@ -1,0 +1,140 @@
+/**
+ * Global styles - consolidated from styles.css and App.css
+ */
+
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --light-bg: #f8f9fa;
+  --border-color: #ddd;
+  --text-color: #333;
+  --text-muted: #666;
+}
+
+/* Global container for all pages */
+.container {
+  width: 1040px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Form Styling */
+form {
+  margin: 0 auto;
+  width: 400px;
+  padding: 20px;
+  background-color: var(--light-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styling */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Input fields */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Error messages */
+.error {
+  color: var(--danger-color);
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+/* Navigation menu */
+nav {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+nav ul li {
+  margin: 0 20px;
+}
+
+nav ul li a,
+nav ul li button {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: bold;
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+nav ul li a:hover,
+nav ul li button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Headings */
+h1, h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+/* App container */
+.App {
+  text-align: center;
+}
+
