@@ -15,14 +15,9 @@ const Login = () => {
     try {
       const res = await axios.post('http://localhost:5000/login', { identifier, password });
       localStorage.setItem('token', res.data.token); // Save JWT token in localStorage
-      
-      // Redirect based on user role
-      const role = res.data.role || 'client';
-      if (role === 'contractor') {
-        navigate('/contractor/dashboard');
-      } else {
-        navigate('/dashboard');
-      }
+
+      // Redirect to dashboard after successful login
+      navigate('/dashboard');
     } catch (err) {
       setError('Login failed. Please try again.');
     }

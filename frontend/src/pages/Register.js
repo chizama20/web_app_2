@@ -6,15 +6,9 @@ const Register = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [address, setAddress] = useState('');
-  const [cardName, setCardName] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [expMonth, setExpMonth] = useState('');
-  const [expYear, setExpYear] = useState('');
-  const [cvv, setCVV] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -27,15 +21,9 @@ const Register = () => {
         firstName,
         lastName,
         email,
-        number,
+        phone,
         password,
-        confirmPassword,
-        address,
-        cardName,
-        cardNumber,
-        expMonth,
-        expYear,
-        cvv
+        address
       });
       if (res.status === 201) {
         navigate('/login');
@@ -43,12 +31,6 @@ const Register = () => {
     } catch (err) {
       setError('Registration failed. Please try again.');
     }
-  };
-
-  const handleCopy = () => {
-    const codeText = document.getElementById('sql-code').innerText;
-    navigator.clipboard.writeText(codeText);
-    alert('SQL code copied to clipboard');
   };
 
   return (
@@ -67,77 +49,71 @@ const Register = () => {
 
       {error && <p className="error" style={{ color: 'red' }}>{error}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} required />
-        <input type="text" placeholder="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} required />
-        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
-        <input type="text" placeholder="Phone Number" value={number} onChange={e => setNumber(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
-        <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
-        <input type="text" placeholder="Address" value={address} onChange={e => setAddress(e.target.value)} required />
-        <input type="text" placeholder="Cardholder Name" value={cardName} onChange={e => setCardName(e.target.value)} required />
-        <input type="text" placeholder="Card Number" value={cardNumber} onChange={e => setCardNumber(e.target.value)} required />
-        <input type="text" placeholder="Exp Month (MM)" value={expMonth} onChange={e => setExpMonth(e.target.value)} required />
-        <input type="text" placeholder="Exp Year (YYYY)" value={expYear} onChange={e => setExpYear(e.target.value)} required />
-        <input type="text" placeholder="CVV" value={cvv} onChange={e => setCVV(e.target.value)} required />
+      <form onSubmit={handleSubmit} style={{ maxWidth: '500px', margin: '0 auto' }}>
+        <input
+          type="text"
+          placeholder="First Name"
+          value={firstName}
+          onChange={e => setFirstName(e.target.value)}
+          required
+          style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
+        />
+        <input
+          type="text"
+          placeholder="Last Name"
+          value={lastName}
+          onChange={e => setLastName(e.target.value)}
+          required
+          style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
+          style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
+        />
+        <input
+          type="text"
+          placeholder="Phone Number"
+          value={phone}
+          onChange={e => setPhone(e.target.value)}
+          required
+          style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+          style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
+        />
+        <input
+          type="text"
+          placeholder="Address"
+          value={address}
+          onChange={e => setAddress(e.target.value)}
+          required
+          style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
+        />
 
-        <button type="submit" style={{ marginTop: '10px' }}>Register</button>
+        <button type="submit" style={{ width: '100%', padding: '12px', marginTop: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1.1rem' }}>
+          Register
+        </button>
       </form>
 
-      {/* Database Setup Instructions */}
-      <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
-        <h3 style={{ fontSize: '1.5rem', color: '#007bff', marginBottom: '15px', textAlign: 'center' }}>
-          Before Registering: Set Up the Database
+      {/* Registration Info */}
+      <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px', maxWidth: '800px', margin: '30px auto' }}>
+        <h3 style={{ fontSize: '1.5rem', color: '#007bff', marginBottom: '15px' }}>
+          Create Your Account
         </h3>
         <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: '#555' }}>
-          To enable the registration functionality, you must first create the required database and table in MySQL.
-          Follow these steps:
+          Register to create your account. After registration, you'll be redirected to the login page where you can sign in with your credentials.
         </p>
-
-        <ol style={{ fontSize: '1.1rem', lineHeight: '1.6', color: '#555', paddingLeft: '20px' }}>
-          <li><strong>Start MySQL in XAMPP</strong>: Open XAMPP and start the MySQL module. You can use phpMyAdmin or MySQL CLI.</li>
-          <li><strong>Create the Database</strong>: 
-            <pre style={{ backgroundColor: '#f0f0f0', padding: '10px', borderRadius: '4px' }}>
-              CREATE DATABASE jwt_auth_db;
-            </pre>
-          </li>
-          <li><strong>Use the Database</strong>: 
-            <pre style={{ backgroundColor: '#f0f0f0', padding: '10px', borderRadius: '4px' }}>
-              USE jwt_auth_db;
-            </pre>
-          </li>
-          <li><strong>Create the Users Table</strong>: 
-            <pre id="sql-code" style={{ backgroundColor: '#f0f0f0', padding: '10px', borderRadius: '4px', whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}>
-CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  clientid VARCHAR(100) NOT NULL UNIQUE,
-
-  firstName VARCHAR(100) NOT NULL,
-  lastName VARCHAR(100) NOT NULL,
-  
-  email VARCHAR(100) NOT NULL UNIQUE,
-  number VARCHAR(100) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  
-  address VARCHAR(100) NOT NULL,
-  
-  cardName VARCHAR(100) NOT NULL,
-  cardNumber VARCHAR(25) NOT NULL,
-  expMonth VARCHAR(2) NOT NULL,
-  expYear VARCHAR(4) NOT NULL,
-  cvv VARCHAR(4) NOT NULL,
-  
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-            </pre>
-            <button onClick={handleCopy} style={{ marginTop: '10px', padding: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-              Copy SQL Code
-            </button>
-          </li>
-        </ol>
-
         <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: '#555' }}>
-          Once the database and table are set up, you can register users, and their data will be stored in the database.
+          Your password will be securely hashed before being stored in the database.
         </p>
       </div>
     </div>
@@ -154,11 +130,6 @@ const menuLinkStyle = {
   borderRadius: '4px',
   display: 'inline-block',
   transition: 'background-color 0.3s',
-};
-
-// Add a hover effect for the links
-menuLinkStyle[':hover'] = {
-  backgroundColor: '#e0e0e0',
 };
 
 export default Register;

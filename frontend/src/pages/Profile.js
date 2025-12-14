@@ -1,33 +1,58 @@
-// This is the content of the profile page
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getFirstNameFromToken } from '../utils'; // Helper function to get the username
+import { userAPI } from '../services/api';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const firstName = getFirstNameFromToken(); // Extract the first name from the JWT token
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  // Fetch user profile data on component mount
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await userAPI.getProfile();
+        setUser(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to load profile');
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove the JWT token from localStorage
-    navigate('/login'); // Redirect to login page
+    localStorage.removeItem('token');
+    navigate('/login');
   };
+
+  if (loading) {
+    return (
+      <div className="container" style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container" style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-      <h2 style={{ textAlign: 'center', fontSize: '2rem', color: '#007bff', marginBottom: '20px' }}>Welcome to Your profile page, {firstName}!</h2>
-      
+      <h2 style={{ textAlign: 'center', fontSize: '2rem', color: '#007bff', marginBottom: '20px' }}>
+        Welcome to Your Profile, {user?.firstName}!
+      </h2>
+
       {/* Navigation Menu */}
       <nav style={{ textAlign: 'center', marginBottom: '20px' }}>
         <ul style={{ listStyleType: 'none', padding: '0', display: 'flex', justifyContent: 'center', gap: '20px' }}>
           <li><Link to="/" style={menuLinkStyle}>Home</Link></li>
           <li><Link to="/dashboard" style={menuLinkStyle}>Dashboard</Link></li>
-          <li><Link to="/login" style={menuLinkStyle}>Login</Link></li>
-          <li><Link to="/register" style={menuLinkStyle}>Register</Link></li>
           <li>
             <button
               onClick={handleLogout}
               style={{
-                ...menuLinkStyle,  // Apply the same menu style to the logout button
+                ...menuLinkStyle,
                 background: '#f5f5f5',
                 border: 'none',
                 cursor: 'pointer'
@@ -38,28 +63,35 @@ const Profile = () => {
           </li>
         </ul>
       </nav>
-      
-      <p style={{ fontSize: '1.2rem', color: '#555', textAlign: 'justify', marginBottom: '20px' }}>
-        This is your profile page. You can navigate to other pages using the links above.
-      </p>
+
+      {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+
+      {/* Profile Information */}
+      {user && (
+        <div style={{ backgroundColor: '#f8f9fa', padding: '30px', borderRadius: '8px', marginBottom: '30px' }}>
+          <h3 style={{ marginTop: 0, color: '#007bff' }}>Your Information</h3>
+          <div style={{ fontSize: '1.1rem', color: '#555', lineHeight: '2' }}>
+            <p><strong>Name:</strong> {user.firstName} {user.lastName}</p>
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Phone:</strong> {user.phone}</p>
+            <p><strong>Address:</strong> {user.address}</p>
+          </div>
+        </div>
+      )}
 
       {/* Explanation Paragraph */}
-      <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
+      <div style={{ marginTop: '20px', padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
         <h3 style={{ fontSize: '1.5rem', color: '#007bff', marginBottom: '15px' }}>Understanding JWT-Based Access</h3>
         <p style={{ fontSize: '1.1rem', color: '#555', lineHeight: '1.6' }}>
-          Since we have implemented **JWT authentication**, you were able to navigate from the dashboard to this profile page 
-          because the JWT token is stored in the browser’s **localStorage**. As long as the JWT token exists and is valid, 
-          you can access private pages like this profile page.
+          This profile page fetches your data from the server using the JWT token stored in your browser's localStorage.
+          The token is automatically sent with each request to authenticate you.
         </p>
         <p style={{ fontSize: '1.1rem', color: '#555', lineHeight: '1.6' }}>
-          However, if you log out, the JWT token will be removed from **localStorage**, which means you will no longer 
-          be authenticated. If you try to access this profile page after logging out, you will be redirected to the login page because 
-          the site will no longer recognize you as a logged-in user. To test this, log out and then try to come back to the profile page 
-          using the direct link—you will see that access is blocked.
+          If you log out, the JWT token will be removed, and you will no longer be able to access this page.
+          Try logging out and accessing this page directly - you'll be redirected to the login page.
         </p>
         <p style={{ fontSize: '1.1rem', color: '#555', lineHeight: '1.6' }}>
-          This demonstrates how the **Profile** page acts as a **private page** that can only be accessed if the user is logged in. 
-          Without a valid JWT token, the site will deny access to any private pages.
+          This demonstrates how protected routes work with JWT authentication.
         </p>
       </div>
     </div>
@@ -76,11 +108,6 @@ const menuLinkStyle = {
   borderRadius: '4px',
   display: 'inline-block',
   transition: 'background-color 0.3s',
-};
-
-// Add a hover effect for the links and buttons
-menuLinkStyle[':hover'] = {
-  backgroundColor: '#e0e0e0',
 };
 
 export default Profile;
