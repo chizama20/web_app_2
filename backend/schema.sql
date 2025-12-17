@@ -5,8 +5,6 @@ CREATE DATABASE IF NOT EXISTS cuisine_db;
 USE cuisine_db;
 
 -- Drop users table if it exists (optional - remove this line if you want to preserve existing data)
-DROP TABLE IF EXISTS recipes;
-DROP TABLE IF EXISTS users_favorites;
 
 -- Create users table
 CREATE TABLE users (

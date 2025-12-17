@@ -13,7 +13,7 @@ const Login = () => {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:5000/login', { identifier, password });
+      const res = await axios.post('http://localhost:3000/login', { identifier, password });
       localStorage.setItem('token', res.data.token); // Save JWT token in localStorage
 
       // Redirect to dashboard after successful login

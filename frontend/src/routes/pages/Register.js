@@ -17,7 +17,7 @@ const Register = () => {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:5000/register', {
+      const res = await axios.post('http://localhost:3000/register', {
         firstName,
         lastName,
         email,

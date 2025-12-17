@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { userAPI } from '../services/api';
+import { userAPI } from '../../services/api';
 
 const Profile = () => {
   const navigate = useNavigate();
