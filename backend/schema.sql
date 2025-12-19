@@ -1,12 +1,8 @@
 -- Create database if it doesn't exist
 CREATE DATABASE IF NOT EXISTS cuisine_db;
-
--- Use the database
 USE cuisine_db;
 
--- Drop users table if it exists (optional - remove this line if you want to preserve existing data)
-
--- Create users table
+-- Users table
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   clientId VARCHAR(36) NOT NULL UNIQUE,
@@ -21,4 +17,35 @@ CREATE TABLE users (
   INDEX idx_email (email),
   INDEX idx_phone (phone),
   INDEX idx_clientId (clientId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Recipes table
+CREATE TABLE Recipes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(100) NOT NULL UNIQUE,
+  description TEXT NOT NULL,
+  region VARCHAR(100) NOT NULL,
+  country VARCHAR(50) NOT NULL,
+  author_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_author FOREIGN KEY (author_id) REFERENCES users(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Ingredients table
+CREATE TABLE ingredients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  recipe_id INT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  amount VARCHAR(50) NOT NULL,
+  CONSTRAINT fk_recipe_ingredient FOREIGN KEY (recipe_id) REFERENCES Recipes(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Steps table
+CREATE TABLE steps (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  recipe_id INT NOT NULL,
+  step_number INT NOT NULL,
+  instruction TEXT NOT NULL,
+  CONSTRAINT fk_recipe_step FOREIGN KEY (recipe_id) REFERENCES Recipes(id),
+  UNIQUE(recipe_id, step_number)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
