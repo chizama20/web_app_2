@@ -44,13 +44,13 @@ api.interceptors.response.use(
 
 // Auth APIs
 export const authAPI = {
-  register: (userData) => api.post('/register', userData),
-  login: (credentials) => api.post('/login', credentials)
+  register: (userData) => api.post('/api/auth/register', userData),
+  login: (credentials) => api.post('/api/auth/login', credentials)
 };
 
 // User APIs
 export const userAPI = {
-  getProfile: () => api.get('/profile')
+  getProfile: () => api.get('/api/users/profile')
 };
 
 export default api;

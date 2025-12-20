@@ -4,6 +4,7 @@ const cors = require('cors');
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const recipeRoutes = require('./routes/recipeRoutes');
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/recipe', recipeRoutes);
 
 // Health check route
 app.get('/health', (req, res) => {
