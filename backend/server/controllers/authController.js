@@ -1,49 +1,10 @@
-// Required dependencies
-require('dotenv').config();
-const express = require('express');
-const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
+const db = require('../config/db');
 
-const app = express();
-
-// Middleware
-app.use(express.json());
-app.use(cors());
-
-// Create a MySQL connection pool
-const db = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'cuisine_db',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
-
-// Test database connection
-db.getConnection((err, connection) => {
-  if (err) {
-    console.error('Database connection failed:', err.stack);
-    return;
-  }
-  console.log('Connected to MySQL database.');
-  connection.release();
-});
-
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
-// ==================== AUTHENTICATION ROUTES ====================
-
-// User registration route
-app.post('/register', async (req, res) => {
+// User registration
+const register = async (req, res) => {
   const {
     firstName,
     lastName,
@@ -86,10 +47,10 @@ app.post('/register', async (req, res) => {
     console.error('Registration error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
-});
+};
 
-// User login route
-app.post('/login', async (req, res) => {
+// User login
+const login = async (req, res) => {
   const { identifier, password } = req.body;
 
   if (!identifier || !password) {
@@ -143,60 +104,9 @@ app.post('/login', async (req, res) => {
     console.error('Login error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
-});
-
-// ==================== MIDDLEWARE ====================
-
-// JWT authentication middleware
-const authenticateToken = (req, res, next) => {
-  const token = req.headers['authorization'];
-
-  if (!token) {
-    return res.status(401).json({ message: 'Access denied. No token provided.' });
-  }
-
-  // Verify JWT token
-  jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret_change_this', (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Invalid token' });
-    }
-
-    // Attach user info to request
-    req.user = {
-      userId: decoded.userId,
-      clientId: decoded.clientId
-    };
-
-    next();
-  });
 };
 
-// ==================== PROTECTED ROUTES ====================
-
-// Protected dashboard route
-app.get('/dashboard', authenticateToken, (req, res) => {
-  res.json({
-    message: 'Welcome to the dashboard!',
-    userId: req.user.userId
-  });
-});
-
-// Get user profile
-app.get('/profile', authenticateToken, (req, res) => {
-  const userId = req.user.userId;
-
-  const sql = 'SELECT id, clientId, firstName, lastName, email, phone, address FROM users WHERE id = ?';
-
-  db.query(sql, [userId], (err, results) => {
-    if (err) {
-      console.error('Database error:', err);
-      return res.status(500).json({ message: 'Database error', error: err.message });
-    }
-
-    if (results.length === 0) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    res.json(results[0]);
-  });
-});
+module.exports = {
+  register,
+  login
+};
