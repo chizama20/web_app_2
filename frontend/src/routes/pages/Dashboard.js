@@ -10,6 +10,10 @@ const Dashboard = () => {
     navigate('/login');
   };
 
+  const handleMakeRecipe = () => {
+    navigate('/CreateRecipe');
+  }
+
   return (
     <div className="container" style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
       <h2 style={{ fontSize: '2rem', color: '#007bff', textAlign: 'center', marginBottom: '20px' }}>Dashboard</h2>
@@ -46,7 +50,7 @@ const Dashboard = () => {
         </ul>
       </nav>
 
-      <div style={{ backgroundColor: '#f8f9fa', padding: '30px', borderRadius: '8px', marginBottom: '30px', textAlign: 'center' }}>
+      <div style={{ backgroundColor: '#f8f9fa', padding: '40px', borderRadius: '8px', marginBottom: '30px', textAlign: 'center' }}>
         <h3 style={{ marginTop: 0, color: '#007bff' }}>Welcome to Your Dashboard!</h3>
         <p style={{ fontSize: '1.1rem', color: '#555', lineHeight: '1.6' }}>
           You are now logged in. This is a protected route that requires authentication.
@@ -61,6 +65,11 @@ const Dashboard = () => {
         <p style={{ margin: 0, color: '#666', fontSize: '1.1rem' }}>
           Start adding your app features here!
         </p>
+      </div>
+      <div style={{backgroundColor: '#f8f9fa', padding: '30px', borderRadius: '8px', marginBottom: '30px', textAlign: 'center' }}>
+        <button onClick={handleMakeRecipe} style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}>
+          Make a recipe
+        </button>
       </div>
     </div>
   );

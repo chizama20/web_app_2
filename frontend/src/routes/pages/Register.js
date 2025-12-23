@@ -75,7 +75,7 @@ const Register = () => {
           style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
         />
         <input
-          type="text"
+          type="number"
           placeholder="Phone Number"
           value={phone}
           onChange={e => setPhone(e.target.value)}

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getRecipe } = require('../controllers/recipeController');
+const { getRecipe, createRecipe } = require('../controllers/recipesController');
 
 // GET /api/recipes/:id
 router.get('/:id', getRecipe);

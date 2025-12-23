@@ -4,6 +4,7 @@ import Login from './routes/pages/Login';
 import Register from './routes/pages/Register';
 import Dashboard from './routes/pages/Dashboard';
 import Profile from './routes/pages/Profile';
+import CreateRecipe from './routes/pages/createRecipe';
 import PrivateRoute from './routes/PrivateRoute';
 
 function App() {
@@ -30,6 +31,15 @@ function App() {
           element={
             <PrivateRoute>
               <Profile />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/CreateRecipe"
+          element={
+            <PrivateRoute>
+              <CreateRecipe />
             </PrivateRoute>
           }
         />

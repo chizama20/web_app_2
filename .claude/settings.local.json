@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(move middleware.js authMiddleware.js)"
-    ]
-  }
-}
