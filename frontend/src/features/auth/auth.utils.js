@@ -18,3 +18,13 @@ export const getUserIdFromToken = () => {
     return null;
   }
 };
+
+// Check if user is authenticated
+export const isAuthenticated = () => {
+  return !!getToken();
+};
+
+// Clear authentication
+export const clearAuth = () => {
+  localStorage.removeItem('token');
+};

@@ -42,21 +42,4 @@ api.interceptors.response.use(
   }
 );
 
-// Auth APIs
-export const authAPI = {
-  register: (userData) => api.post('/api/auth/register', userData),
-  login: (credentials) => api.post('/api/auth/login', credentials)
-};
-
-// User APIs
-export const userAPI = {
-  getProfile: () => api.get('/api/users/profile')
-};
-
-// Recipe APIs
-export const recipeAPI = {
-  create: (recipeData) => api.post('/api/recipes', recipeData),
-  getById: (id) => api.get(`/api/recipes/${id}`)
-};
-
 export default api;

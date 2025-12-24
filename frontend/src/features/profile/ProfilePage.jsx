@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { userAPI } from '../../services/api';
+import { userAPI } from './profile.api';
 
-const Profile = () => {
+const ProfilePage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -110,4 +110,4 @@ const menuLinkStyle = {
   transition: 'background-color 0.3s',
 };
 
-export default Profile;
+export default ProfilePage;

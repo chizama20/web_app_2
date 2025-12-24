@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Dashboard = () => {
+const DashboardPage = () => {
   const navigate = useNavigate();
 
   // Log out function to clear the token and redirect to login page
@@ -75,4 +75,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardPage;

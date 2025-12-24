@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { authAPI } from './auth.api';
 
-const Register = () => {
+const RegisterPage = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ const Register = () => {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', {
+      const res = await authAPI.register({
         firstName,
         lastName,
         email,
@@ -132,4 +132,4 @@ const menuLinkStyle = {
   transition: 'background-color 0.3s',
 };
 
-export default Register;
+export default RegisterPage;

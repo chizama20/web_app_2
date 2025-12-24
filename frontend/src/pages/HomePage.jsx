@@ -20,7 +20,7 @@ const HomePage = () => {
         </nav>
       </header>
 
-      
+
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { userAPI, recipeAPI } from '../../services/api';
-import './createRecipe.css';
+import { userAPI } from '../profile/profile.api';
+import { recipeAPI } from './recipes.api';
+import './CreateRecipe.css';
 
-const CreateRecipe = () => {
+const CreateRecipePage = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [region, setRegion] = useState('');
@@ -298,4 +299,4 @@ const CreateRecipe = () => {
   );
 };
 
-export default CreateRecipe;
+export default CreateRecipePage;

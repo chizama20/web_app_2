@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { authAPI } from './auth.api';
 
-const Login = () => {
+const LoginPage = () => {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,8 +13,8 @@ const Login = () => {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', { identifier, password });
-      localStorage.setItem('token', res.data.token); // Save JWT token in localStorage
+      const res = await authAPI.login({ identifier, password });
+      localStorage.setItem('token', res.data.token);
 
       // Redirect to dashboard after successful login
       navigate('/dashboard');
@@ -32,13 +32,13 @@ const Login = () => {
         <ul style={{ listStyleType: 'none', padding: '0', display: 'flex', justifyContent: 'center', gap: '20px' }}>
           <li><Link to="/" style={menuLinkStyle}>Home</Link></li>
           <li><Link to="/dashboard" style={menuLinkStyle}>Dashboard</Link></li>
-          <li><Link to="/profile" style={menuLinkStyle}>Profile</Link></li>  {/* Replaced Login link with Profile */}
+          <li><Link to="/profile" style={menuLinkStyle}>Profile</Link></li>
           <li><Link to="/register" style={menuLinkStyle}>Register</Link></li>
         </ul>
       </nav>
 
       {error && <p className="error" style={{ color: 'red' }}>{error}</p>}
-      
+
       <form onSubmit={handleSubmit} style={{ maxWidth: '500px', margin: '0 auto' }}>
         <input type="text" placeholder="Email or Phone Number" value={identifier} onChange={e => setIdentifier(e.target.value)} required style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ddd' }}/>
         <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ddd' }} />
@@ -65,4 +65,4 @@ menuLinkStyle[':hover'] = {
   backgroundColor: '#e0e0e0',
 };
 
-export default Login;
+export default LoginPage;
